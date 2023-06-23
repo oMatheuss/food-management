@@ -10,3 +10,14 @@ export interface Food {
   fiber: number;
   sodium: number;
 }
+
+export interface NewMealFoods {
+  id: number;
+  name: string;
+  quantity: number;
+}
+
+export interface NewMealRequest {
+  name: string;
+  foods: NewMealFoods[]
+}

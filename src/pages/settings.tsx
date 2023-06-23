@@ -3,7 +3,7 @@ import UserSettings from "@/components/user-settings";
 
 const Settings = () => {
   return (
-    <div className="space-y-6 max-w-prose w-full mx-3 sm:mx-auto">
+    <div className="space-y-6 max-w-prose mx-3 sm:mx-auto">
       <div>
         <h3 className="text-lg font-medium">Configurações</h3>
         <p className="text-sm text-muted-foreground">

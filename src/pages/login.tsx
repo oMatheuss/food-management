@@ -1,25 +1,28 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Lock, LogIn, User } from "lucide-react";
-import { useEffect } from "react";
 import { Form, useActionData, redirect, useNavigation } from "react-router-dom";
 import type { ActionFunction } from "react-router-dom";
 import backgroud from "@/assets/login-bg.jpg";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
-  console.log(formData);
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-  return redirect("/");
+  const response = await fetch("api/login", {
+    method: "POST",
+    body: JSON.stringify(Object.fromEntries(formData.entries())),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+  if (response.ok) {
+    return redirect("/");
+  }
+  return response.json();
 };
 
 const Login = () => {
   const { state } = useNavigation();
-  const loginResponse = useActionData();
-
-  useEffect(() => {
-    if (loginResponse) alert("ha");
-  }, [loginResponse]);
+  const loginResponse = useActionData() as { message?: string };
 
   return (
     <div className="antialiased relative min-h-screen flex justify-center font-comfortaa">
@@ -37,6 +40,7 @@ const Login = () => {
               name="email"
               placeholder="Email"
               className="ps-7 border-slate-500"
+              required
             />
           </div>
           <div className="mb-3 relative">
@@ -46,8 +50,16 @@ const Login = () => {
               name="password"
               placeholder="Senha"
               className="ps-7 border-slate-500"
+              required
             />
           </div>
+
+          {loginResponse && loginResponse.message ? (
+            <div className="mb-3 text-red-400 text-sm">
+              {loginResponse?.message}
+            </div>
+          ) : null}
+
           <Button
             className="w-full"
             type="submit"

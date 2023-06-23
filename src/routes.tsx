@@ -4,6 +4,7 @@ import Login, { action as LoginAction } from "@/pages/login";
 import Layout from "@/components/layout";
 import Foods, { loader as FoodsLoader } from "@/pages/foods";
 import Settings from "@/pages/settings";
+import UserMeals from "@/pages/meals";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
         path: "/foods",
         element: <Foods/>,
         loader: FoodsLoader
+      },
+      {
+        path: "/meals",
+        element: <UserMeals/>
       },
       {
         path: "/settings",

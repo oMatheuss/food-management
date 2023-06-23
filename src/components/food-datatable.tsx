@@ -112,61 +112,65 @@ const FoodDataTable = ({ data }: FoodDataTableProps) => {
           ))}
         </TableBody>
       </Table>
-      <div className="flex items-center gap-2">
-        <button
-          className="border rounded p-1 disabled:text-gray-500"
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
-        >
-          <ArrowBigLeftDash />
-        </button>
-        <button
-          className="border rounded p-1 disabled:text-gray-500"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          <ArrowBigLeft />
-        </button>
-        <button
-          className="border rounded p-1 disabled:text-gray-500"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          <ArrowBigRight />
-        </button>
-        <button
-          className="border rounded p-1 disabled:text-gray-500"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          <ArrowBigRightDash />
-        </button>
-        <span className="flex items-center gap-1 mr-auto">
-          <div>Página</div>
-          <strong>
-            {table.getState().pagination.pageIndex + 1} de{" "}
-            {table.getPageCount()}
-          </strong>
-        </span>
-        <Select
-          value={table.getState().pagination.pageSize.toString()}
-          onValueChange={(value) => {
-            table.setPageSize(Number(value));
-          }}
-        >
-          <SelectTrigger className="w-fit">
-            <SelectValue placeholder="Select a fruit" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup className="font-comfortaa">
-              {[10, 20, 30, 40, 50].map((pageSize) => (
-                <SelectItem key={pageSize} value={String(pageSize)}>
-                  Mostrar {pageSize}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+      <div className="flex flex-col sm:flex-row items-center gap-2">
+        <div className="flex flex-row">
+          <button
+            className="border rounded p-1 disabled:text-gray-500"
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <ArrowBigLeftDash />
+          </button>
+          <button
+            className="border rounded p-1 disabled:text-gray-500"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <ArrowBigLeft />
+          </button>
+          <button
+            className="border rounded p-1 disabled:text-gray-500"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            <ArrowBigRight />
+          </button>
+          <button
+            className="border rounded p-1 disabled:text-gray-500"
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+          >
+            <ArrowBigRightDash />
+          </button>
+        </div>
+        <div className="flex flex-row grow justify-around sm:justify-end w-full">
+          <span className="flex items-center gap-1">
+            <div>Página</div>
+            <strong>
+              {table.getState().pagination.pageIndex + 1} de{" "}
+              {table.getPageCount()}
+            </strong>
+          </span>
+          <Select
+            value={table.getState().pagination.pageSize.toString()}
+            onValueChange={(value) => {
+              table.setPageSize(Number(value));
+            }}
+          >
+            <SelectTrigger className="w-fit">
+              <SelectValue placeholder="Select a fruit" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup className="font-comfortaa">
+                {[10, 20, 30, 40, 50].map((pageSize) => (
+                  <SelectItem key={pageSize} value={String(pageSize)}>
+                    Mostrar {pageSize}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
     </>
   );

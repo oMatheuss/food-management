@@ -1,7 +1,4 @@
-import { LogOut, Settings, User } from "lucide-react";
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Home, List, LogOut, Menu, Settings, UtensilsCrossed } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Link } from "react-router-dom";
 
 interface UserInfo {
   email: string;
@@ -22,21 +20,21 @@ const matheus: UserInfo = {
   username: "matheus",
 };
 
-export function UserNav() {
+const menuItems = [
+  { title: 'Início', href: '/', icon: Home },
+  { title: 'Catálago', href: '/foods', icon: List },
+  { title: 'Refeições', href: '/meals', icon: UtensilsCrossed },
+  { title: 'Configurações', href: '/settings', icon: Settings },
+];
+
+export function MobileNav() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-          <Avatar className="h-9 w-9">
-            <AvatarImage src="/avatars/03.png" alt="@shadcn" />
-            <AvatarFallback>
-              <User />
-            </AvatarFallback>
-          </Avatar>
-        </Button>
+      <DropdownMenuTrigger className="transition hover:scale-110">
+        <Menu className="h-8 w-8"/>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="w-56 font-comfortaa"
+        className="w-screen font-comfortaa"
         align="end"
         forceMount
       >
@@ -52,19 +50,21 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
-            <span>Perfil</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Configurações</span>
-          </DropdownMenuItem>
+          {menuItems.map(item => (
+            <DropdownMenuItem key={item.href} asChild>
+              <Link to={item.href}>
+                <item.icon className="mr-2 h-4 w-4"/>
+                <span>{item.title}</span>
+              </Link>
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="text-red-600">
-          <LogOut className="mr-2 h-4 w-4" />
-          <span>Sair</span>
+        <DropdownMenuItem className="text-red-600" asChild>
+          <Link to='/login'>
+            <LogOut className="mr-2 h-4 w-4" />
+            <span>Sair</span>
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

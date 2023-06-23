@@ -23,17 +23,18 @@ const Foods = () => {
   const { state } = useNavigation();
 
   return (
-    <div className="space-y-6 max-w-prose w-full px-3 mx-auto">
+    <div className="space-y-6 max-w-prose mx-3 sm:mx-auto">
       <div>
         <h3 className="text-lg font-medium">Catálago</h3>
         <p className="text-sm text-muted-foreground">
           Pesquise por alimentos especificos no nosso catálago.
         </p>
       </div>
+      <Separator/>
       <Form>
         <Label htmlFor="name">Nome</Label>
         <div className="flex flex-row">
-          <Input name="q" type="text" className="rounded-e-none z-10" />
+          <Input name="q" type="text" className="rounded-e-none z-10" autoComplete="off" />
           <Button
             type="submit"
             className="rounded-s-none"
@@ -50,7 +51,6 @@ const Foods = () => {
           Pesquise alimentos pelo nome.
         </span>
       </Form>
-      <Separator />
       <FoodDataTable data={foods} />
     </div>
   );
