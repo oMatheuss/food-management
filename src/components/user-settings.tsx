@@ -2,9 +2,10 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Loader2, Save } from 'lucide-react';
+import { Loader2, Save, UserCircle2 } from 'lucide-react';
 import { User } from '@/types/User';
 import { Form } from 'react-router-dom';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 interface UserSettingsProps {
   user: User;
@@ -14,7 +15,11 @@ interface UserSettingsProps {
 
 const UserSettings = ({ user, onUpdate, isFetching }: UserSettingsProps) => {
   return (
-    <Form method='put' onSubmit={onUpdate} className='flex flex-col space-y-2'>
+    <Form
+      method='put'
+      onSubmit={onUpdate}
+      className='flex flex-col max-w-prose mx-auto space-y-2 pb-4'
+    >
       <div>
         <Label htmlFor='name'>Nome</Label>
         <Input name='name' defaultValue={user.name} type='text' />
@@ -31,12 +36,33 @@ const UserSettings = ({ user, onUpdate, isFetching }: UserSettingsProps) => {
       </div>
       <div>
         <Label htmlFor='bio'>Bio</Label>
-        <Textarea name='bio' defaultValue='Eu tenho um computador'></Textarea>
+        <Textarea name='bio' defaultValue={user.bio ?? ''}></Textarea>
         <span className='text-muted-foreground text-xs'>
           Você pode @mencionar outros usuários.
         </span>
       </div>
-      <input type='hidden' name='id' value={user.id} />
+      <div>
+        <Label htmlFor='imgUser'>Avatar</Label>
+        <div className='flex flex-row items-center space-x-6'>
+          <Avatar className='h-14 w-14 drag'>
+            <AvatarImage src={user.avatar ?? ''} alt={user.username} />
+            <AvatarFallback>
+              <UserCircle2 size={56} />
+            </AvatarFallback>
+          </Avatar>
+          <label className='block'>
+            <span className='sr-only'>Choose profile photo</span>
+            <input
+              type='file'
+              name='avatar'
+              className='block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-sm file:border-0 file:text-sm file:font-comfortaa file:bg-violet-50 file:bg-primary file:text-white file:text-primary-foreground file:hover:bg-primary/90 file:cursor-pointer'
+            />
+          </label>
+        </div>
+        <span className='text-muted-foreground text-xs'>
+          Uma imagem que representa você.
+        </span>
+      </div>
       <div>
         <Button type='submit' disabled={isFetching}>
           {!isFetching ? (

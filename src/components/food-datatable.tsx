@@ -5,20 +5,20 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
 import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
 import {
   ArrowBigLeft,
   ArrowBigLeftDash,
   ArrowBigRight,
   ArrowBigRightDash,
-} from "lucide-react";
+} from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -26,8 +26,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import type { Food } from "@/types/Food";
+} from '@/components/ui/select';
+import type { Food } from '@/types/Food';
 
 interface FoodDataTableProps {
   data: Food[];
@@ -36,39 +36,39 @@ interface FoodDataTableProps {
 const columnHelper = createColumnHelper<Food>();
 
 const columns = [
-  columnHelper.accessor("id", {
+  columnHelper.accessor('id', {
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("name", {
-    header: "Nome",
-    cell: (info) => <div className="w-80">{info.getValue()}</div>,
+  columnHelper.accessor('name', {
+    header: 'Nome',
+    cell: (info) => <div className='w-80'>{info.getValue()}</div>,
   }),
-  columnHelper.accessor("calories", {
-    header: "Calorias",
+  columnHelper.accessor('calories', {
+    header: 'Calorias',
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("carbs", {
-    header: "Carboidrados",
+  columnHelper.accessor('carbs', {
+    header: 'Carboidrados',
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("proteins", {
-    header: "Proteinas",
+  columnHelper.accessor('proteins', {
+    header: 'Proteinas',
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("total_fat", {
-    header: "Gorduras",
+  columnHelper.accessor('total_fat', {
+    header: 'Gorduras',
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("satured_fat", {
-    header: "Gorduras Saturadas",
+  columnHelper.accessor('satured_fat', {
+    header: 'Gorduras Saturadas',
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("fiber", {
-    header: "Fibras",
+  columnHelper.accessor('fiber', {
+    header: 'Fibras',
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("sodium", {
-    header: "Sal",
+  columnHelper.accessor('sodium', {
+    header: 'Sal',
     cell: (info) => info.getValue(),
   }),
 ];
@@ -83,7 +83,7 @@ const FoodDataTable = ({ data }: FoodDataTableProps) => {
 
   return (
     <>
-      <Table className="border">
+      <Table className='border'>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -112,42 +112,42 @@ const FoodDataTable = ({ data }: FoodDataTableProps) => {
           ))}
         </TableBody>
       </Table>
-      <div className="flex flex-col sm:flex-row items-center gap-2">
-        <div className="flex flex-row">
+      <div className='flex flex-col sm:flex-row items-center gap-2'>
+        <div className='flex flex-row'>
           <button
-            className="border rounded p-1 disabled:text-gray-500"
+            className='border rounded p-1 disabled:text-gray-500'
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
             <ArrowBigLeftDash />
           </button>
           <button
-            className="border rounded p-1 disabled:text-gray-500"
+            className='border rounded p-1 disabled:text-gray-500'
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
             <ArrowBigLeft />
           </button>
           <button
-            className="border rounded p-1 disabled:text-gray-500"
+            className='border rounded p-1 disabled:text-gray-500'
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
             <ArrowBigRight />
           </button>
           <button
-            className="border rounded p-1 disabled:text-gray-500"
+            className='border rounded p-1 disabled:text-gray-500'
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >
             <ArrowBigRightDash />
           </button>
         </div>
-        <div className="flex flex-row grow justify-around sm:justify-end w-full">
-          <span className="flex items-center gap-1">
+        <div className='flex flex-row grow gap-x-2 justify-around sm:justify-end w-full'>
+          <span className='flex items-center gap-1'>
             <div>Página</div>
             <strong>
-              {table.getState().pagination.pageIndex + 1} de{" "}
+              {table.getState().pagination.pageIndex + 1} de{' '}
               {table.getPageCount()}
             </strong>
           </span>
@@ -157,11 +157,11 @@ const FoodDataTable = ({ data }: FoodDataTableProps) => {
               table.setPageSize(Number(value));
             }}
           >
-            <SelectTrigger className="w-fit">
-              <SelectValue placeholder="Select a fruit" />
+            <SelectTrigger className='w-fit'>
+              <SelectValue placeholder='Select a fruit' />
             </SelectTrigger>
             <SelectContent>
-              <SelectGroup className="font-comfortaa">
+              <SelectGroup className='font-comfortaa'>
                 {[10, 20, 30, 40, 50].map((pageSize) => (
                   <SelectItem key={pageSize} value={String(pageSize)}>
                     Mostrar {pageSize}

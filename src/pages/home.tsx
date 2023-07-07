@@ -1,4 +1,5 @@
-import { MealInfo } from '@/components/MealInfo';
+import { MealInfo } from '@/components/meal-info';
+import NoMeals from '@/components/no-meals';
 import {
   Accordion,
   AccordionContent,
@@ -15,7 +16,7 @@ import { useLoaderData, type LoaderFunction, redirect } from 'react-router-dom';
 export const loader: LoaderFunction = () => {
   let user = getUser();
   if (!user) return redirect('/login');
-  return api.get(`/api/mealbyuserid/${user.id}`);
+  return api.get('/api/meal');
 };
 
 const Home = () => {
@@ -36,10 +37,9 @@ const Home = () => {
   };
 
   const handleDeleteItem = async (id: number) => {
-    let res = await api.delete(`/api/deleteusermeal/${id}`);
+    let res = await api.delete(`/api/meal/${id}`);
 
     if (res.ok) {
-      console.log('ok');
       setMeals((prev) => prev.filter((x) => x.list_id !== id));
       setMealsInfo((x) => {
         let newMap = new Map(x);
@@ -50,7 +50,7 @@ const Home = () => {
   };
 
   return (
-    <div className='space-y-6 max-w-prose w-full mx-auto px-2'>
+    <div className='space-y-6 max-w-7xl w-full mx-auto px-2'>
       <div>
         <h3 className='text-lg font-medium'>Suas Refeições</h3>
         <p className='text-sm text-muted-foreground'>
@@ -59,6 +59,7 @@ const Home = () => {
       </div>
       <Separator />
       <Accordion type='single' collapsible className='w-full'>
+        {meals.length === 0 && <NoMeals />}
         {meals.map((meal) => (
           <AccordionItem
             onClick={() => handleClickItem(meal.list_id)}

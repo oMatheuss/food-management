@@ -18,7 +18,7 @@ export default function Error() {
         <p className='text-center mb-5 max-w-xl'>{error.message}</p>
       )}
       <Button className='hover:text-yellow-200' asChild>
-        <Link to='/'>
+        <Link to='/login'>
           <ArrowLeftSquare className='mr-2' /> Voltar
         </Link>
       </Button>

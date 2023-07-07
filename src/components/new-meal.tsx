@@ -1,7 +1,7 @@
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Save } from 'lucide-react';
+import { Loader2, Save } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { useState } from 'react';
 import { Food, NewMealFoods } from '@/types/Food';
@@ -13,6 +13,7 @@ const NewMeal = () => {
   const [name, setName] = useState('');
   const [foods, setFoods] = useState<NewMealFoods[]>([]);
   const { toast } = useToast();
+  const [isFetching, setFetching] = useState(false);
 
   const insertMeal = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,7 +22,10 @@ const NewMeal = () => {
       foods: foods.map((x) => ({ food_id: x.id, quantity: x.quantity })),
     };
 
-    let response = await api.post('/api/addusermeal', body);
+    setFetching(true);
+    let response = await api
+      .post('/api/meal', body)
+      .finally(() => setFetching(false));
 
     if (response.ok) {
       toast({
@@ -79,8 +83,13 @@ const NewMeal = () => {
         <NewMealDataTable foods={foods} setFoods={setFoods} />
       </div>
       <div>
-        <Button type='submit'>
-          <Save className='mr-2' /> Criar
+        <Button type='submit' disabled={isFetching}>
+          {isFetching ? (
+            <Loader2 className='mr-2 animate-spin' />
+          ) : (
+            <Save className='mr-2' />
+          )}{' '}
+          Criar
         </Button>
       </div>
     </form>

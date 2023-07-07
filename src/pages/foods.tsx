@@ -24,7 +24,7 @@ const Foods = () => {
   const { state } = useNavigation();
 
   return (
-    <div className='space-y-6 max-w-prose mx-3 sm:mx-auto'>
+    <div className='space-y-6 max-w-7xl w-full mx-auto px-2'>
       <div>
         <h3 className='text-lg font-medium'>Catálago</h3>
         <p className='text-sm text-muted-foreground'>

@@ -1,14 +1,14 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Lock, LogIn, User as UserIcon } from 'lucide-react';
+import { AtSign, Lock, LogIn, Mail, User as UserIcon } from 'lucide-react';
 import { Form, Link, useNavigate } from 'react-router-dom';
 import backgroud from '@/assets/login-bg.jpg';
-import { useState } from 'react';
 import { api } from '@/lib/api';
+import { useState } from 'react';
 
 type ErrorMessage = { message: string };
 
-const Login = () => {
+const Register = () => {
   const navigate = useNavigate();
   const [isFetching, setFetching] = useState(false);
   const [error, setError] = useState<ErrorMessage | null>(null);
@@ -17,14 +17,22 @@ const Login = () => {
     e.preventDefault();
     let formData = new FormData(e.currentTarget);
 
-    let user = formData.get('user') as string;
+    const password = formData.get('password');
+    const confirmPassword = formData.get('confirm-password');
+
+    if (password !== confirmPassword) {
+      setError({ message: 'As senhas diferem!' });
+      return;
+    }
 
     setError(null);
     setFetching(true);
     const response = await api
-      .post('api/login', {
-        ...(user.indexOf('@') === -1 ? { username: user } : { email: user }),
-        password: formData.get('password'),
+      .post('api/register', {
+        name: formData.get('name'),
+        username: formData.get('username'),
+        email: formData.get('email'),
+        password: password,
       })
       .finally(() => setFetching(false));
 
@@ -33,7 +41,7 @@ const Login = () => {
       localStorage.setItem('usuario', user);
       navigate('/');
     } else {
-      const defaultMessage = 'Erro ao fazer login!';
+      const defaultMessage = 'Erro ao criar conta!';
       const error = { message: '' };
       error.message = await response
         .json()
@@ -50,25 +58,59 @@ const Login = () => {
         className='absolute w-full h-full object-center object-cover'
       />
       <div className='z-10 w-full max-w-lg mx-3 my-auto sm:m-auto p-8 rounded-3xl bg-gray-100 bg-opacity-90'>
-        <h1 className='text-3xl mb-3 rounded'>Login</h1>
+        <h1 className='text-3xl mb-3 rounded'>Registro</h1>
         <Form method='post' onSubmit={handleSubmit} className='w-full'>
           <div className='mb-3 relative'>
             <UserIcon className='absolute w-6 top-1/2 transform -translate-y-1/2 left-1 text-slate-700' />
             <Input
               type='text'
-              inputMode='email'
-              name='user'
-              placeholder='Username ou Email'
+              name='name'
+              placeholder='Nome'
               className='ps-7 border-slate-500'
               required
             />
           </div>
+
+          <div className='mb-3 relative'>
+            <AtSign className='absolute w-6 top-1/2 transform -translate-y-1/2 left-1 text-slate-700' />
+            <Input
+              type='text'
+              name='username'
+              pattern='[\w\.]{3,16}'
+              placeholder='Username'
+              className='ps-7 border-slate-500'
+              required
+            />
+          </div>
+
+          <div className='mb-3 relative'>
+            <Mail className='absolute w-6 top-1/2 transform -translate-y-1/2 left-1 text-slate-700' />
+            <Input
+              type='email'
+              name='email'
+              placeholder='Email'
+              className='ps-7 border-slate-500'
+              required
+            />
+          </div>
+
           <div className='mb-3 relative'>
             <Lock className='absolute w-6 top-1/2 transform -translate-y-1/2 left-1 text-slate-700' />
             <Input
               type='password'
               name='password'
               placeholder='Senha'
+              className='ps-7 border-slate-500'
+              required
+            />
+          </div>
+
+          <div className='mb-3 relative'>
+            <Lock className='absolute w-6 top-1/2 transform -translate-y-1/2 left-1 text-slate-700' />
+            <Input
+              type='password'
+              name='confirm-password'
+              placeholder='Confirmar Senha'
               className='ps-7 border-slate-500'
               required
             />
@@ -85,9 +127,9 @@ const Login = () => {
         </Form>
 
         <p className='text-center'>
-          Não tem uma conta?{' '}
-          <Link to='/register' className='text-green-700 hover:underline'>
-            Cadastre-se
+          Já possui uma conta?{' '}
+          <Link to='/login' className='text-green-700 hover:underline'>
+            Faça login
           </Link>
         </p>
       </div>
@@ -95,4 +137,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

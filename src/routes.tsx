@@ -1,11 +1,12 @@
 import { createBrowserRouter, redirect } from 'react-router-dom';
-import Home, { loader as HomeLoader } from '@/pages/home';
-import Login, { action as LoginAction } from '@/pages/login';
 import Layout from '@/components/layout';
+import Home, { loader as HomeLoader } from '@/pages/home';
+import Login from '@/pages/login';
 import Foods, { loader as FoodsLoader } from '@/pages/foods';
 import Settings from '@/pages/settings';
 import UserMeals from '@/pages/meals';
 import Error from '@/pages/error';
+import Register from '@/pages/register';
 import { logout } from './lib/utils';
 
 const router = createBrowserRouter([
@@ -37,7 +38,6 @@ const router = createBrowserRouter([
   {
     path: 'login',
     element: <Login />,
-    action: LoginAction,
     index: true,
   },
   {
@@ -47,6 +47,11 @@ const router = createBrowserRouter([
       await logout();
       return redirect('/login');
     },
+  },
+  {
+    path: 'register',
+    errorElement: <Error />,
+    element: <Register />,
   },
 ]);
 
